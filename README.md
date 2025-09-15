@@ -1,4 +1,4 @@
-# 🍽️ Uber Eats Restaurant Recommendation using Spark and AWS
+# 🍽️ Uber Eats Restaurant Recommender
 
 This project analyzes Uber Eats restaurant and menu data to build a location- and price-based restaurant recommendation system using **Apache Spark**, **AWS S3**, and **AWS Athena**. The system uses **cosine similarity** to find restaurants that are similar in terms of location and average menu pricing, allowing users to explore new restaurants without worrying about cost or distance.
 
@@ -14,9 +14,12 @@ This project analyzes Uber Eats restaurant and menu data to build a location- an
 
 ---
 
-## 📊 Dataset
+## 📊 Overview
+The goal of this project was to design and implement a **restaurant recommender system** that identifies similar restaurants based on menu items, location, and pricing.
 
-The dataset was obtained from Kaggle and includes over **60K restaurants** and nearly **1M menu items**.
+Data contents:
+- ~**60,000 restaurants**
+- ~**1 million menu items**
 
 📌 **Kaggle Dataset**:  
 [Uber Eats USA Restaurants & Menus](https://www.kaggle.com/datasets/ahmedshahriarsakib/uber-eats-usa-restaurants-menus)
@@ -26,21 +29,36 @@ The dataset was obtained from Kaggle and includes over **60K restaurants** and n
 
 ---
 
+## ⚙️ Tech Stack
+- **Data Processing**: PySpark (Spark DataFrames, Spark SQL)
+- **Storage**: AWS S3  
+- **Query Engine**: AWS Athena  
+- **Modeling**: Spark MLlib (cosine similarity)  
+- **Language**: Python (Jupyter Notebooks)
+
 ## 🧪 Project Pipeline
 
-1. **Data Ingestion**
-   - Files loaded from AWS S3 into PySpark DataFrames
+1. **Data Loading**
+   - Raw CSV data uploaded to AWS S3  
+   - Ingested into PySpark DataFrames  
+
 2. **Data Cleaning & Transformation**
-   - Normalized columns (e.g., "$$" → numeric), removed nulls, standardized menu item names
-3. **Athena Queries**
-   - Used AWS Athena for efficient SQL joins and aggregations on large datasets
-4. **Feature Engineering**
-   - Created final dataset with latitude, longitude, and average menu price
-5. **Modeling**
-   - Used Spark’s MLlib to compute **cosine similarity** between restaurants
-   - Filtered and returned a list of similar restaurants
-6. **Evaluation**
-   - Qualitative evaluation using similarity scores and sample outputs
+   - Standardized menu items (case normalization, removing nulls)  
+   - Price normalization  
+   - Added geospatial features (latitude, longitude)  
+
+3. **Feature Engineering**
+   - Average menu prices per restaurant  
+   - Aggregated cuisine and item features  
+   - Location embeddings  
+
+4. **Modeling**
+   - Cosine similarity to compute restaurant similarity  
+   - Recommend "nearest" restaurants by feature vector distance  
+
+5. **Evaluation**
+   - Qualitative evaluation using sample queries  
+   - Validation by comparing known similar restaurants 
 
 ---
 
@@ -56,14 +74,6 @@ Shows how this system could be scaled for real-time use with APIs and user queri
 
 ---
 
-## 🧠 Challenges Faced
-
-- All data initially in string format → Required extensive type casting and cleaning
-- Large data volume (~900MB+) → Solved with Spark’s distributed processing
-- Maintaining performance across joins and queries in Athena
-
----
-
 ## 📌 Notes
 
 - ⚠️ **This project was originally built using AWS S3, Athena, and Spark.**  
@@ -71,20 +81,15 @@ Shows how this system could be scaled for real-time use with APIs and user queri
   
 ---
 
-## 🚀 Future Improvements
+## Key Insights
 
-- Incorporate **cuisine types** (e.g., map Pizza, Burgers → Fast Food) to improve recommendation logic
-- Include **real-time data updates** using APIs
-- Expand model with additional features (ratings, delivery time, etc.)
+- Handling big data pipelines with PySpark and AWS.
 
----
+- Using Athena for SQL-style querying over large datasets.
 
-## 👨‍💻 Author
+- Building a content-based recommender with cosine similarity.
 
-**Akshat Gaur**
-📧 [akshat99gaur@gmail.com](mailto:akshat99gaur@gmail.com)
+- Managing scalability issues with datasets in the order of millions of rows.
 
 ---
-
-
 
